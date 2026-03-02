@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정든부동산 — 제주 부동산 전문</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --jeju:    #1B4B3A;
+  --jeju2:   #2D6E55;
+  --mint:    #4CA882;
+  --sand:    #F2EDE4;
+  --warm:    #E8E0D0;
+  --stone:   #8C7B6B;
+  --text:    #1A1410;
+  --muted:   #7A6E65;
+  --white:   #FDFCF9;
+  --gold:    #C4963A;
+  --red:     #C0392B;
+  --blue:    #2471A3;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--sand);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── 언어 전환 ── */
+.lang-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  background: var(--jeju);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 24px;
+}
+.lang-logo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  color: rgba(255,255,255,.5); text-transform: uppercase;
+}
+.lang-logo span { color: var(--mint); }
+.lang-btns { display: flex; gap: 4px; }
+.lang-btn {
+  font-size: 12px; font-weight: 600; letter-spacing: 1px;
+  padding: 5px 14px; border: 1px solid rgba(255,255,255,.2);
+  background: transparent; color: rgba(255,255,255,.6);
+  cursor: pointer; transition: all .2s;
+}
+.lang-btn.active { background: var(--mint); border-color: var(--mint); color: #fff; }
+
+/* 언어별 텍스트 */
+.ko { display: block; }
+.en { display: none; }
+.zh { display: none; }
+body.lang-en .ko { display: none; }
+body.lang-en .en { display: block; }
+body.lang-zh .ko { display: none; }
+body.lang-zh .zh { display: block; }
+/* inline 요소용 */
+span.ko { display: inline; }
+span.en { display: none; }
+span.zh { display: none; }
+body.lang-en span.ko { display: none; }
+body.lang-en span.en { display: inline; }
+body.lang-zh span.ko { display: none; }
+body.lang-zh span.zh { display: inline; }
+
+/* ── HERO ── */
+.hero {
+  margin-top: 44px;
+  background: var(--jeju);
+  min-height: 100svh;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  position: relative; overflow: hidden;
+  padding: 60px 32px 50px;
+}
+
+.hero-map-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 70% 30%, rgba(76,168,130,.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 20% 70%, rgba(196,150,58,.08) 0%, transparent 50%),
+    linear-gradient(160deg, #0F2E22 0%, #1B4B3A 50%, #142E24 100%);
+}
+
+/* 제주 섬 실루엣 SVG 배경 */
+.hero-island {
+  position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
+  opacity: .06; pointer-events: none;
+  font-size: 320px; line-height: 1;
+  filter: blur(2px);
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 500px; }
+
+.hero-tag {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 600; letter-spacing: 6px;
+  color: var(--mint); text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0; animation: up .7s ease .2s forwards;
+}
+.hero-name {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(40px, 9vw, 72px);
+  font-weight: 700; color: #fff;
+  line-height: 1.1; margin-bottom: 8px;
+  opacity: 0; animation: up .7s ease .4s forwards;
+}
+.hero-name-en {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; font-weight: 300; letter-spacing: 4px;
+  color: rgba(255,255,255,.4); margin-bottom: 28px;
+  opacity: 0; animation: up .7s ease .5s forwards;
+}
+.hero-rep {
+  font-size: 14px; color: rgba(255,255,255,.55); line-height: 2;
+  opacity: 0; animation: up .7s ease .6s forwards;
+}
+.hero-rep strong { color: rgba(255,255,255,.85); }
+
+.hero-badges {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 32px;
+  opacity: 0; animation: up .7s ease .8s forwards;
+}
+.h-badge {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  color: rgba(255,255,255,.7);
+  font-size: 11px; letter-spacing: 1px;
+  padding: 7px 16px;
+}
+
+.hero-scroll {
+  position: absolute; bottom: 30px; right: 32px; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: up .7s ease 1.2s forwards;
+}
+.hero-scroll span { font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,.3); }
+.scroll-line {
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, var(--mint), transparent);
+  animation: scrollAnim 2s ease infinite;
+}
+@keyframes scrollAnim {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes up {
+  from { opacity:0; transform: translateY(24px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ── 통계 바 ── */
+.stat-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--warm);
+  display: flex; flex-wrap: wrap;
+}
+.stat-item {
+  flex: 1; min-width: 120px;
+  padding: 20px 24px;
+  border-right: 1px solid var(--warm);
+  text-align: center;
+}
+.stat-item:last-child { border-right: none; }
+.stat-val {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 28px; font-weight: 700;
+  color: var(--jeju); line-height: 1;
+}
+.stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: 1px; }
+
+/* ── SECTION ── */
+.section { padding: 70px 24px; }
+.sec-tag {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 600; letter-spacing: 5px;
+  color: var(--mint); text-transform: uppercase; margin-bottom: 12px;
+}
+.sec-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(26px, 4vw, 40px); font-weight: 700;
+  color: var(--jeju); line-height: 1.2; margin-bottom: 8px;
+}
+.sec-sub { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 40px; }
+
+/* ── 필터 ── */
+.filter-row {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 32px;
+}
+.filter-btn {
+  font-size: 12px; letter-spacing: 1px;
+  padding: 8px 18px; border: 1px solid var(--warm);
+  background: var(--white); color: var(--muted);
+  cursor: pointer; transition: all .2s;
+}
+.filter-btn.active { background: var(--jeju); border-color: var(--jeju); color: #fff; }
+
+/* ── 매물 그리드 ── */
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.prop-card {
+  background: var(--white);
+  border: 1px solid var(--warm);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all .25s;
+  position: relative;
+}
+.prop-card:hover {
+  border-color: var(--mint);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(27,75,58,.12);
+}
+
+.prop-img {
+  width: 100%; height: 200px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 80px; position: relative;
+  overflow: hidden;
+}
+.prop-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.5) 100%);
+}
+.prop-type-badge {
+  position: absolute; top: 14px; left: 14px;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  padding: 5px 12px; text-transform: uppercase;
+}
+.prop-type-badge.apt  { background: var(--jeju); color: #fff; }
+.prop-type-badge.land { background: var(--gold); color: #fff; }
+.prop-type-badge.comm { background: var(--blue); color: #fff; }
+.prop-type-badge.house{ background: var(--red); color: #fff; }
+.prop-type-badge.pent { background: #6B3DB8; color: #fff; }
+
+.prop-new {
+  position: absolute; top: 14px; right: 14px;
+  background: var(--red); color: #fff;
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  padding: 4px 10px;
+}
+
+.prop-body { padding: 20px; }
+.prop-location {
+  font-size: 11px; letter-spacing: 2px; color: var(--mint);
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.prop-name {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 18px; font-weight: 700; color: var(--text);
+  margin-bottom: 8px; line-height: 1.3;
+}
+.prop-specs {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.prop-spec {
+  font-size: 12px; color: var(--muted);
+  display: flex; align-items: center; gap: 4px;
+}
+.prop-price {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--jeju);
+}
+.prop-price-sub { font-size: 12px; color: var(--muted); font-weight: 400; }
+.prop-more {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--warm);
+}
+.prop-more-text { font-size: 12px; color: var(--mint); letter-spacing: 1px; }
+.prop-more-arrow { font-size: 16px; color: var(--mint); }
+
+/* ── 매물 상세 모달 ── */
+.modal-bg {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(15,25,20,.85);
+  display: none; align-items: center; justify-content: center;
+  padding: 16px;
+  backdrop-filter: blur(4px);
+}
+.modal-bg.open { display: flex; }
+
+.modal {
+  background: var(--white);
+  width: 100%; max-width: 760px;
+  max-height: 90svh; overflow-y: auto;
+  position: relative;
+  animation: modalIn .3s cubic-bezier(.34,1.2,.64,1);
+}
+@keyframes modalIn {
+  from { opacity:0; transform: scale(.95) translateY(20px); }
+  to   { opacity:1; transform: scale(1) translateY(0); }
+}
+
+.modal-close {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; justify-content: flex-end;
+  padding: 14px 16px;
+  background: var(--white);
+  border-bottom: 1px solid var(--warm);
+}
+.modal-close button {
+  background: var(--jeju); color: #fff;
+  border: none; font-size: 13px; letter-spacing: 2px;
+  padding: 8px 20px; cursor: pointer;
+}
+
+/* 사진 슬라이더 */
+.slider-wrap {
+  position: relative; height: 280px;
+  background: var(--jeju); overflow: hidden;
+}
+.slider-main {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 120px;
+  transition: opacity .3s;
+}
+.slider-thumbs {
+  position: absolute; bottom: 12px; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 6px;
+}
+.slider-dot {
+  width: 28px; height: 4px;
+  background: rgba(255,255,255,.3); cursor: pointer; transition: all .2s;
+}
+.slider-dot.active { background: var(--mint); width: 40px; }
+.slider-prev, .slider-next {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(0,0,0,.4); color: #fff; border: none;
+  width: 40px; height: 40px; font-size: 18px;
+  cursor: pointer; transition: background .2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.slider-prev { left: 12px; }
+.slider-next { right: 12px; }
+.slider-prev:hover, .slider-next:hover { background: var(--mint); }
+.slider-count {
+  position: absolute; top: 14px; right: 14px;
+  background: rgba(0,0,0,.5); color: #fff;
+  font-size: 11px; letter-spacing: 1px; padding: 4px 12px;
+}
+
+.modal-body { padding: 28px 24px; }
+.modal-tag { font-size: 11px; letter-spacing: 3px; color: var(--mint); text-transform: uppercase; margin-bottom: 8px; }
+.modal-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 24px; font-weight: 700; color: var(--text);
+  margin-bottom: 6px; line-height: 1.3;
+}
+.modal-price {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 28px; font-weight: 700; color: var(--jeju);
+  margin-bottom: 20px;
+}
+
+.detail-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--warm); border: 1px solid var(--warm);
+  margin-bottom: 24px;
+}
+.detail-item {
+  background: var(--white); padding: 12px 16px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.detail-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+.detail-val { font-size: 14px; font-weight: 600; color: var(--text); }
+
+.modal-desc {
+  font-size: 14px; color: var(--muted); line-height: 1.9;
+  margin-bottom: 24px; padding: 20px;
+  background: var(--sand); border-left: 3px solid var(--mint);
+}
+
+.modal-cta {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.cta-call {
+  flex: 1; padding: 16px;
+  background: var(--jeju); color: #fff;
+  border: none; font-size: 15px; font-weight: 600; letter-spacing: 1px;
+  cursor: pointer; transition: background .2s; text-decoration: none;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.cta-call:hover { background: var(--mint); }
+.cta-kakao {
+  padding: 16px 24px;
+  background: #FEE500; color: #1A1410;
+  border: none; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: opacity .2s; text-decoration: none;
+  display: flex; align-items: center; gap: 6px;
+}
+.cta-kakao:hover { opacity: .85; }
+
+/* ── 지도 & 정보 ── */
+.info-section { background: var(--jeju); }
+.info-inner { max-width: 800px; margin: 0 auto; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+@media(max-width:600px){ .info-grid{ grid-template-columns:1fr; } }
+
+.info-card {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  padding: 24px;
+}
+.info-card .i-label { font-size: 10px; letter-spacing: 3px; color: var(--mint); margin-bottom: 10px; text-transform: uppercase; }
+.info-card .i-val { font-size: 14px; color: rgba(255,255,255,.8); line-height: 1.8; }
+.info-card .i-val a { color: var(--mint); text-decoration: none; }
+
+.map-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 18px;
+  background: var(--mint); color: #fff;
+  border: none; font-size: 14px; font-weight: 600; letter-spacing: 2px;
+  cursor: pointer; margin-top: 16px; text-decoration: none;
+  transition: background .2s;
+}
+.map-btn:hover { background: var(--jeju2); }
+
+/* ── 상담 예약 ── */
+.consult-section { background: var(--white); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media(max-width:500px){ .form-grid{ grid-template-columns:1fr; } }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-field.full { grid-column: 1/-1; }
+.form-label { font-size: 10px; letter-spacing: 3px; color: var(--mint); text-transform: uppercase; }
+.form-input, .form-select, .form-textarea {
+  background: var(--sand); border: 1px solid var(--warm);
+  color: var(--text); font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px; padding: 13px 16px; outline: none;
+  transition: border-color .2s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--mint); }
+.form-select option { background: var(--white); }
+.form-textarea { resize: none; min-height: 90px; }
+.submit-btn {
+  grid-column: 1/-1;
+  background: var(--jeju); color: #fff;
+  border: none; padding: 18px; font-size: 15px; font-weight: 600;
+  letter-spacing: 2px; cursor: pointer; transition: background .2s; width: 100%;
+  margin-top: 4px;
+}
+.submit-btn:hover { background: var(--mint); }
+
+/* ── QR ── */
+.qr-section { background: var(--sand); padding: 60px 24px; }
+.qr-inner { max-width: 700px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+@media(max-width:600px){ .qr-inner{grid-template-columns:1fr;} }
+.qr-box { background: var(--jeju); padding: 32px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.qr-frame { background: #fff; width: 160px; height: 160px; display: flex; align-items: center; justify-content: center; font-size: 90px; }
+.qr-label { font-size: 11px; letter-spacing: 3px; color: rgba(255,255,255,.5); text-align: center; text-transform: uppercase; }
+.qr-input-wrap { display: flex; gap: 0; margin-bottom: 12px; }
+.qr-input {
+  flex: 1; background: var(--white); border: 1px solid var(--warm);
+  border-right: none; color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif; font-size: 13px;
+  padding: 12px 14px; outline: none;
+}
+.qr-input:focus { border-color: var(--mint); }
+.qr-paste-btn {
+  background: var(--mint); color: #fff; border: none;
+  padding: 12px 16px; font-size: 12px; cursor: pointer; white-space: nowrap;
+}
+.qr-dl-btn {
+  display: none; width: 100%;
+  background: var(--gold); color: #fff; border: none;
+  padding: 13px; font-size: 13px; letter-spacing: 2px;
+  cursor: pointer; margin-top: 8px;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #0A1E16;
+  padding: 36px 24px;
+  text-align: center;
+}
+.footer-name {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px;
+}
+.footer-info { font-size: 12px; color: rgba(255,255,255,.4); line-height: 2; letter-spacing: .5px; }
+.footer-powered { font-size: 10px; letter-spacing: 4px; color: var(--mint); margin-top: 16px; text-transform: uppercase; }
+
+/* ── 토스트 ── */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--jeju); color: #fff;
+  font-size: 13px; letter-spacing: 1px; padding: 14px 28px;
+  z-index: 9999; opacity: 0;
+  transition: all .4s cubic-bezier(.34,1.56,.64,1);
+  white-space: nowrap; pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ── reveal ── */
+.reveal { opacity:0; transform:translateY(32px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+@media(max-width:768px){
+  .hero { padding: 50px 20px 40px; }
+  .section { padding: 50px 20px; }
+  .info-section { padding: 50px 20px; }
+  .consult-section { padding: 50px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- ── 언어 바 ── -->
+<div class="lang-bar">
+  <div class="lang-logo">⚡ <span>LocalBoost</span></div>
+  <div class="lang-btns">
+    <button class="lang-btn active" onclick="setLang('ko')">한국어</button>
+    <button class="lang-btn" onclick="setLang('en')">English</button>
+    <button class="lang-btn" onclick="setLang('zh')">中文</button>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-map-bg"></div>
+  <div class="hero-island">🏝</div>
+
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="ko">제주 부동산 전문</span>
+      <span class="en">Jeju Real Estate Specialist</span>
+      <span class="zh">济州房地产专业</span>
+    </div>
+    <h1 class="hero-name">정든부동산</h1>
+    <div class="hero-name-en">JUNGDEUN REAL ESTATE</div>
+    <div class="hero-rep">
+      <span class="ko">
+        대표 <strong>김다혜</strong><br>
+        제주시 일주서로 7828-1<br>
+        등록번호 50110-2015-00169
+      </span>
+      <span class="en">
+        Agent <strong>Kim Da-hye</strong><br>
+        7828-1 Iljuseo-ro, Jeju-si<br>
+        Reg. No. 50110-2015-00169
+      </span>
+      <span class="zh">
+        代表 <strong>金多慧</strong><br>
+        济州市一周西路7828-1<br>
+        注册号 50110-2015-00169
+      </span>
+    </div>
+    <div class="hero-badges">
+      <div class="h-badge">
+        <span class="ko">📞 010-2106-3651</span>
+        <span class="en">📞 010-2106-3651</span>
+        <span class="zh">📞 010-2106-3651</span>
+      </div>
+      <div class="h-badge">
+        <span class="ko">🏡 전 지역 매물 취급</span>
+        <span class="en">🏡 All Jeju Properties</span>
+        <span class="zh">🏡 全济州房源</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── 통계 ── -->
+<div class="stat-bar reveal">
+  <div class="stat-item">
+    <div class="stat-val">10<span style="font-size:16px">년+</span></div>
+    <div class="stat-label">
+      <span class="ko">운영 경력</span>
+      <span class="en">Experience</span>
+      <span class="zh">运营经验</span>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val">500<span style="font-size:16px">+</span></div>
+    <div class="stat-label">
+      <span class="ko">거래 완료</span>
+      <span class="en">Deals Done</span>
+      <span class="zh">成交案例</span>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val">전지역</div>
+    <div class="stat-label">
+      <span class="ko">제주 커버리지</span>
+      <span class="en">Jeju Coverage</span>
+      <span class="zh">济州全覆盖</span>
+    </div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val">4.9★</div>
+    <div class="stat-label">
+      <span class="ko">고객 만족도</span>
+      <span class="en">Satisfaction</span>
+      <span class="zh">客户满意度</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── 매물 ── -->
+<section class="section" id="properties" style="background:var(--sand);">
+  <div class="sec-tag reveal">
+    <span class="ko">매물 안내</span>
+    <span class="en">Available Properties</span>
+    <span class="zh">在售房源</span>
+  </div>
+  <h2 class="sec-title reveal">
+    <span class="ko">제주 전 지역<br>최신 매물</span>
+    <span class="en">Latest Properties<br>Across Jeju</span>
+    <span class="zh">济州全岛<br>最新房源</span>
+  </h2>
+
+  <div class="filter-row reveal">
+    <button class="filter-btn active" onclick="filterProp('all', this)">
+      <span class="ko">전체</span><span class="en">All</span><span class="zh">全部</span>
+    </button>
+    <button class="filter-btn" onclick="filterProp('apt', this)">
+      <span class="ko">아파트</span><span class="en">Apartment</span><span class="zh">公寓</span>
+    </button>
+    <button class="filter-btn" onclick="filterProp('house', this)">
+      <span class="ko">단독주택</span><span class="en">House</span><span class="zh">独栋</span>
+    </button>
+    <button class="filter-btn" onclick="filterProp('land', this)">
+      <span class="ko">토지</span><span class="en">Land</span><span class="zh">土地</span>
+    </button>
+    <button class="filter-btn" onclick="filterProp('comm', this)">
+      <span class="ko">상가</span><span class="en">Commercial</span><span class="zh">商铺</span>
+    </button>
+  </div>
+
+  <div class="property-grid" id="propGrid"></div>
+</section>
+
+<!-- ── 매물 상세 모달 ── -->
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-close">
+      <button onclick="closeModal()">
+        <span class="ko">닫기 ✕</span>
+        <span class="en">Close ✕</span>
+        <span class="zh">关闭 ✕</span>
+      </button>
+    </div>
+    <div class="slider-wrap">
+      <div class="slider-main" id="sliderMain"></div>
+      <button class="slider-prev" onclick="slideMove(-1)">‹</button>
+      <button class="slider-next" onclick="slideMove(1)">›</button>
+      <div class="slider-count" id="sliderCount">1 / 5</div>
+      <div class="slider-thumbs" id="sliderThumbs"></div>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ── 위치 & 연락 ── -->
+<section class="section info-section" id="contact">
+  <div class="info-inner">
+    <div class="sec-tag" style="color:var(--mint);">
+      <span class="ko">오시는 길 & 연락처</span>
+      <span class="en">Location & Contact</span>
+      <span class="zh">位置与联系</span>
+    </div>
+    <h2 class="sec-title reveal" style="color:#fff;">
+      <span class="ko">언제든 문의하세요</span>
+      <span class="en">Contact Us Anytime</span>
+      <span class="zh">随时咨询</span>
+    </h2>
+
+    <a href="https://map.naver.com/p/search/제주시 일주서로 7828" target="_blank" class="map-btn reveal">
+      📍 <span class="ko">네이버 지도에서 보기</span>
+      <span class="en">View on Naver Map</span>
+      <span class="zh">查看地图</span>
+    </a>
+
+    <div class="info-grid reveal">
+      <div class="info-card">
+        <div class="i-label">
+          <span class="ko">주소</span><span class="en">Address</span><span class="zh">地址</span>
+        </div>
+        <div class="i-val">
+          <span class="ko">제주시 일주서로 7828-1</span>
+          <span class="en">7828-1 Iljuseo-ro, Jeju-si, Jeju</span>
+          <span class="zh">济州市一周西路7828-1</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="i-label">
+          <span class="ko">전화</span><span class="en">Phone</span><span class="zh">电话</span>
+        </div>
+        <div class="i-val"><a href="tel:01021063651">📞 010-2106-3651</a></div>
+      </div>
+      <div class="info-card">
+        <div class="i-label">
+          <span class="ko">영업시간</span><span class="en">Hours</span><span class="zh">营业时间</span>
+        </div>
+        <div class="i-val">
+          <span class="ko">월~토 09:00 – 18:00<br>일요일 휴무</span>
+          <span class="en">Mon–Sat 09:00 – 18:00<br>Closed on Sunday</span>
+          <span class="zh">周一至周六 09:00–18:00<br>周日休息</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="i-label">
+          <span class="ko">등록번호</span><span class="en">License No.</span><span class="zh">注册号</span>
+        </div>
+        <div class="i-val">50110-2015-00169<br>
+          <span style="font-size:12px;color:rgba(255,255,255,.4);">
+            <span class="ko">공인중개사 김다혜</span>
+            <span class="en">Agent: Kim Da-hye</span>
+            <span class="zh">中介：金多慧</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 상담 예약 ── -->
+<section class="section consult-section" id="consult">
+  <div style="max-width:640px; margin:0 auto;">
+    <div class="sec-tag reveal">
+      <span class="ko">상담 예약</span>
+      <span class="en">Book a Consultation</span>
+      <span class="zh">预约咨询</span>
+    </div>
+    <h2 class="sec-title reveal">
+      <span class="ko">원하는 매물,<br>직접 찾아드립니다</span>
+      <span class="en">We'll Find Your<br>Perfect Property</span>
+      <span class="zh">我们为您<br>寻找理想房产</span>
+    </h2>
+
+    <div class="form-grid reveal">
+      <div class="form-field">
+        <label class="form-label">
+          <span class="ko">이름</span><span class="en">Name</span><span class="zh">姓名</span>
+        </label>
+        <input type="text" class="form-input" id="c-name" placeholder="홍길동">
+      </div>
+      <div class="form-field">
+        <label class="form-label">
+          <span class="ko">연락처</span><span class="en">Phone</span><span class="zh">电话</span>
+        </label>
+        <input type="tel" class="form-input" id="c-phone" placeholder="010-0000-0000">
+      </div>
+      <div class="form-field">
+        <label class="form-label">
+          <span class="ko">관심 매물 유형</span><span class="en">Property Type</span><span class="zh">房产类型</span>
+        </label>
+        <select class="form-select" id="c-type">
+          <option>아파트 / Apartment</option>
+          <option>단독주택 / House</option>
+          <option>토지 / Land</option>
+          <option>상가 / Commercial</option>
+          <option>기타 / Other</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label">
+          <span class="ko">예산</span><span class="en">Budget</span><span class="zh">预算</span>
+        </label>
+        <select class="form-select" id="c-budget">
+          <option>1억 이하 / Under 100M</option>
+          <option>1억~3억 / 100M–300M</option>
+          <option>3억~5억 / 300M–500M</option>
+          <option>5억~10억 / 500M–1B</option>
+          <option>10억 이상 / Over 1B</option>
+        </select>
+      </div>
+      <div class="form-field full">
+        <label class="form-label">
+          <span class="ko">요청 사항</span><span class="en">Message</span><span class="zh">留言</span>
+        </label>
+        <textarea class="form-textarea" id="c-memo" placeholder="원하시는 조건이나 위치를 알려주세요."></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitConsult()">
+        <span class="ko">📩 상담 신청하기</span>
+        <span class="en">📩 Submit Inquiry</span>
+        <span class="zh">📩 提交咨询</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ── QR ── -->
+<section class="qr-section">
+  <div class="qr-inner">
+    <div>
+      <div class="sec-tag">QR & Share</div>
+      <h2 class="sec-title">
+        <span class="ko">QR로 공유하기</span>
+        <span class="en">Share via QR</span>
+        <span class="zh">QR码分享</span>
+      </h2>
+      <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:20px;">
+        <span class="ko">링크를 입력하면 QR 코드가 자동으로 생성됩니다.<br>인쇄하거나 카톡으로 바로 공유하세요.</span>
+        <span class="en">Enter the link to generate a QR code instantly.<br>Print it or share via KakaoTalk.</span>
+        <span class="zh">输入链接即可自动生成二维码。<br>可打印或通过KakaoTalk分享。</span>
+      </p>
+      <div class="qr-input-wrap">
+        <input type="text" class="qr-input" id="qrInput" placeholder="https://yourlink.com" oninput="generateQR()">
+        <button class="qr-paste-btn" onclick="pasteLink()">붙여넣기</button>
+      </div>
+      <button class="qr-dl-btn" id="qrDlBtn" onclick="downloadQR()">⬇ QR 이미지 저장</button>
+    </div>
+    <div class="qr-box">
+      <div class="qr-frame" id="qrCanvas">
+        <span style="font-size:70px;">📲</span>
+      </div>
+      <div class="qr-label" id="qrLabel">
+        <span class="ko">링크 입력 후 QR 생성</span>
+        <span class="en">Enter link to generate QR</span>
+        <span class="zh">输入链接生成二维码</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-name">정든부동산</div>
+  <div class="footer-info">
+    대표 김다혜 &nbsp;|&nbsp; 010-2106-3651<br>
+    제주시 일주서로 7828-1 &nbsp;|&nbsp; 등록번호 50110-2015-00169
+  </div>
+  <div class="footer-powered">Powered by LocalBoost</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+// ── 매물 데이터 ──
+const props = [
+  {
+    id: 1, type: 'apt', isNew: true,
+    location: '제주시 노형동', locationEn: 'Nohyeong-dong, Jeju-si', locationZh: '济州市老衡洞',
+    name: '노형 푸르지오 아파트', nameEn: 'Nohyeong Prugio Apt', nameZh: '老衡璞睿吉公寓',
+    price: '4억 8,000만원', priceEn: '480,000,000 KRW', priceZh: '4.8亿韩元',
+    area: '84㎡', floor: '12층/20층', year: '2019년', direction: '남향',
+    floorEn: '12F / 20F', yearEn: 'Built 2019', directionEn: 'South-facing',
+    floorZh: '12层/20层', yearZh: '2019年建', directionZh: '朝南',
+    desc: '노형동 중심가에 위치한 푸르지오 아파트입니다. 제주시청까지 차량 5분, 이마트 도보 3분 거리. 남향으로 채광이 우수하며 한라산 뷰가 일부 조망됩니다. 리모델링 필요 없이 즉시 입주 가능한 상태입니다.',
+    descEn: 'Located in the heart of Nohyeong-dong. 5 min drive to Jeju City Hall, 3 min walk to E-Mart. South-facing with excellent natural light and partial Hallasan view. Move-in ready.',
+    descZh: '位于老衡洞中心区域。距济州市厅车程5分钟，步行3分钟至易买得。朝南采光好，可部分看到汉拿山。可即刻入住。',
+    images: ['🏢','🛋️','🛁','🌄','🅿️'],
+    manage: '20만원/월', manageEn: '200,000 KRW/mo', manageZh: '20万韩元/月',
+    bg: 'linear-gradient(135deg, #2D6E55, #1B4B3A)'
+  },
+  {
+    id: 2, type: 'house', isNew: false,
+    location: '서귀포시 대정읍', locationEn: 'Daejeong-eup, Seogwipo', locationZh: '西归浦市大静邑',
+    name: '감귤밭 뷰 제주 전원주택', nameEn: 'Tangerine Field View Villa', nameZh: '橘园景观别墅',
+    price: '3억 2,000만원', priceEn: '320,000,000 KRW', priceZh: '3.2亿韩元',
+    area: '132㎡ (대지 660㎡)', floor: '지상 1층', year: '2015년', direction: '동남향',
+    floorEn: 'Ground Floor', yearEn: 'Built 2015', directionEn: 'SE-facing',
+    floorZh: '地上1层', yearZh: '2015年建', directionZh: '东南向',
+    desc: '대정읍 한적한 마을에 위치한 제주 전통 돌담 스타일의 전원주택입니다. 앞마당에 감귤나무 6그루 포함. 마라도 방향 해넘이 조망 가능. 텃밭 공간 별도. 제주공항 차량 40분.',
+    descEn: 'Traditional Jeju stone wall style villa in quiet Daejeong village. Includes 6 tangerine trees in the front yard. Sunset view toward Mara Island. Separate vegetable garden. 40 min to Jeju Airport.',
+    descZh: '位于大静邑安静村庄，济州传统石墙风格别墅。前院含6棵橘子树。可观马罗岛方向日落。独立菜园。距济州机场40分钟车程。',
+    images: ['🏡','🌿','🍊','🌅','🪨'],
+    manage: '없음', manageEn: 'None', manageZh: '无物业费',
+    bg: 'linear-gradient(135deg, #4A7A3A, #2D5A20)'
+  },
+  {
+    id: 3, type: 'land', isNew: true,
+    location: '제주시 한림읍', locationEn: 'Hallim-eup, Jeju-si', locationZh: '济州市翰林邑',
+    name: '한림 해안 인근 토지', nameEn: 'Land Near Hallim Coast', nameZh: '翰林海岸附近土地',
+    price: '2억 5,000만원', priceEn: '250,000,000 KRW', priceZh: '2.5亿韩元',
+    area: '1,320㎡ (약 400평)', floor: '계획관리지역', year: '전용 가능', direction: '해안방향',
+    floorEn: 'Planned Management Zone', yearEn: 'Developable', directionEn: 'Coastal',
+    floorZh: '规划管理区域', yearZh: '可开发', directionZh: '临海方向',
+    desc: '한림항에서 차량 3분 거리의 계획관리지역 토지입니다. 펜션, 카페, 단독주택 건축 가능. 주변 개발 활발. 도로 접도 양호. 조망 우수하며 투자 가치 높은 위치입니다.',
+    descEn: '3 min drive from Hallim Port. Planned management zone - suitable for pension, cafe, or residential development. Active surrounding development. Good road access. High investment value.',
+    descZh: '距翰林港车程3分钟，规划管理区域土地。可建民宿、咖啡厅或住宅。周边开发活跃，道路条件好，投资价值高。',
+    images: ['🌱','🏖️','🌊','🗺️','🌤️'],
+    manage: '해당없음', manageEn: 'N/A', manageZh: '不适用',
+    bg: 'linear-gradient(135deg, #8A6A2A, #C4963A)'
+  },
+  {
+    id: 4, type: 'comm', isNew: false,
+    location: '제주시 연동', locationEn: 'Yeondong, Jeju-si', locationZh: '济州市涟洞',
+    name: '연동 1층 상가 (코너)', nameEn: 'Yeondong Corner Shop (1F)', nameZh: '涟洞一层转角商铺',
+    price: '보 5,000 / 월 180만', priceEn: 'Dep. 50M / Rent 1.8M/mo', priceZh: '押金5千万 / 月租180万',
+    area: '55㎡', floor: '1층 코너', year: '2010년', direction: '2면 도로접',
+    floorEn: '1F Corner', yearEn: 'Built 2010', directionEn: '2-side road',
+    floorZh: '1层转角', yearZh: '2010年建', directionZh: '两面临街',
+    desc: '연동 중심 상권 1층 코너 상가입니다. 신제주 로터리 도보 5분. 유동인구 매우 많은 위치. 카페, 음식점, 편의점 등 다양한 업종 가능. 현 공실로 즉시 영업 가능합니다.',
+    descEn: 'Prime 1F corner shop in Yeondong commercial district. 5 min walk from Sinjeju Rotary. Heavy foot traffic. Suitable for cafe, restaurant, convenience store. Currently vacant - immediate operation possible.',
+    descZh: '涟洞核心商圈一层转角商铺。步行5分钟至新济州环形交叉口。人流量大，适合咖啡厅、餐厅、便利店等多种业态。现空置，可即刻营业。',
+    images: ['🏪','☕','🚶','🛍️','🔑'],
+    manage: '15만원/월', manageEn: '150,000 KRW/mo', manageZh: '15万韩元/月',
+    bg: 'linear-gradient(135deg, #1A4A8A, #2471A3)'
+  },
+  {
+    id: 5, type: 'apt', isNew: false,
+    location: '서귀포시 중문동', locationEn: 'Jungmun-dong, Seogwipo', locationZh: '西归浦市中文洞',
+    name: '중문 오션뷰 아파트', nameEn: 'Jungmun Ocean View Apt', nameZh: '中文海景公寓',
+    price: '6억 5,000만원', priceEn: '650,000,000 KRW', priceZh: '6.5亿韩元',
+    area: '109㎡', floor: '18층/25층', year: '2021년', direction: '정남향',
+    floorEn: '18F / 25F', yearEn: 'Built 2021', directionEn: 'True South',
+    floorZh: '18层/25层', yearZh: '2021年建', directionZh: '正南朝向',
+    desc: '중문관광단지 인근 프리미엄 오션뷰 아파트입니다. 18층에서 제주 남해가 파노라마로 조망됩니다. 롯데호텔, 신라호텔 도보 10분. 제주국제컨벤션센터 인접. 렌트 수요 높은 프리미엄 입지.',
+    descEn: 'Premium ocean view apartment near Jungmun Tourist Complex. Panoramic south sea view from 18F. 10 min walk to Lotte/Shilla Hotel. Next to Jeju ICC. High rental demand premium location.',
+    descZh: '中文旅游区附近高级海景公寓。18层可360°俯瞰济州南海。步行10分钟至乐天/新罗酒店。毗邻济州国际会议中心。高租赁需求优质地段。',
+    images: ['🌊','🏢','🌅','🛋️','🏊'],
+    manage: '25만원/월', manageEn: '250,000 KRW/mo', manageZh: '25万韩元/月',
+    bg: 'linear-gradient(135deg, #1B4B6E, #2471A3)'
+  },
+  {
+    id: 6, type: 'house', isNew: true,
+    location: '제주시 조천읍', locationEn: 'Jocheon-eup, Jeju-si', locationZh: '济州市朝天邑',
+    name: '조천 세화 제주 게스트하우스', nameEn: 'Jocheon Sewha Guesthouse', nameZh: '朝天涉火客房',
+    price: '5억 8,000만원', priceEn: '580,000,000 KRW', priceZh: '5.8亿韩元',
+    area: '건물 198㎡ / 대지 495㎡', floor: '지상 2층', year: '2018년', direction: '해변 인접',
+    floorEn: '2 Floors', yearEn: 'Built 2018', directionEn: 'Near Beach',
+    floorZh: '地上2层', yearZh: '2018年建', directionZh: '临近海边',
+    desc: '세화해변 도보 2분 거리의 운영 중인 게스트하우스입니다. 객실 8개, 공용 거실 및 주방 완비. 연간 예약률 85% 이상. 수익형 부동산으로 즉시 인수 운영 가능. 올레길 20코스 인접.',
+    descEn: 'Operating guesthouse 2 min walk from Sewha Beach. 8 rooms with shared lounge and kitchen. 85%+ annual occupancy. Ready to operate as income property. Near Olle Trail Course 20.',
+    descZh: '距涉火海滩步行2分钟，正在运营的客栈。8间客房，配备公共客厅和厨房。年预订率85%以上。可即刻接手运营的收益型房产。临近偶来步道20路线。',
+    images: ['🏨','🌊','🛏️','☕','🚴'],
+    manage: '없음(자가운영)', manageEn: 'Self-operated', manageZh: '自营',
+    bg: 'linear-gradient(135deg, #2D5A8A, #1B3E6E)'
+  },
+];
+
+const typeBadge = { apt:'apt', house:'house', land:'land', comm:'comm', pent:'pent' };
+const typeLabel = {
+  apt:  {ko:'아파트',  en:'Apartment',  zh:'公寓'},
+  house:{ko:'단독주택',en:'House',       zh:'独栋'},
+  land: {ko:'토지',    en:'Land',        zh:'土地'},
+  comm: {ko:'상가',    en:'Commercial',  zh:'商铺'},
+};
+
+let currentLang = 'ko';
+let currentSlide = 0;
+let currentImages = [];
+
+// ── 언어 전환 ──
+function setLang(lang) {
+  currentLang = lang;
+  document.body.className = lang === 'ko' ? '' : 'lang-' + lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+  renderProps('all');
+}
+
+// ── 매물 렌더 ──
+function renderProps(filter) {
+  const grid = document.getElementById('propGrid');
+  const list = filter === 'all' ? props : props.filter(p => p.type === filter);
+  const L = currentLang;
+
+  grid.innerHTML = list.map(p => {
+    const loc   = L==='en' ? p.locationEn : L==='zh' ? p.locationZh : p.location;
+    const name  = L==='en' ? p.nameEn     : L==='zh' ? p.nameZh     : p.name;
+    const price = L==='en' ? p.priceEn    : L==='zh' ? p.priceZh    : p.price;
+    const tl    = typeLabel[p.type][L] || typeLabel[p.type].ko;
+    const fl    = L==='en' ? p.floorEn    : L==='zh' ? p.floorZh    : p.floor;
+    const yr    = L==='en' ? p.yearEn     : L==='zh' ? p.yearZh     : p.year;
+
+    return `<div class="prop-card reveal" onclick="openModal(${p.id})">
+      <div class="prop-img" style="background:${p.bg}">
+        <span style="font-size:80px;position:relative;z-index:1;">${p.images[0]}</span>
+        <div class="prop-img-overlay"></div>
+        <div class="prop-type-badge ${p.type}">${tl}</div>
+        ${p.isNew ? `<div class="prop-new">NEW</div>` : ''}
+      </div>
+      <div class="prop-body">
+        <div class="prop-location">${loc}</div>
+        <div class="prop-name">${name}</div>
+        <div class="prop-specs">
+          <span class="prop-spec">📐 ${p.area}</span>
+          <span class="prop-spec">🏠 ${fl}</span>
+          <span class="prop-spec">📅 ${yr}</span>
+        </div>
+        <div class="prop-price">${price}</div>
+        <div class="prop-more">
+          <span class="prop-more-text">
+            ${L==='en'?'View Details':L==='zh'?'查看详情':'자세히 보기'} →
+          </span>
+          <span class="prop-more-arrow">›</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // reveal 재등록
+  document.querySelectorAll('.prop-card.reveal').forEach(el => obs.observe(el));
+}
+
+// ── 필터 ──
+function filterProp(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProps(type);
+}
+
+// ── 모달 ──
+function openModal(id) {
+  const p = props.find(x => x.id === id);
+  if (!p) return;
+  const L = currentLang;
+  currentImages = p.images;
+  currentSlide = 0;
+
+  const name  = L==='en' ? p.nameEn  : L==='zh' ? p.nameZh  : p.name;
+  const price = L==='en' ? p.priceEn : L==='zh' ? p.priceZh : p.price;
+  const loc   = L==='en' ? p.locationEn : L==='zh' ? p.locationZh : p.location;
+  const desc  = L==='en' ? p.descEn  : L==='zh' ? p.descZh  : p.desc;
+  const fl    = L==='en' ? p.floorEn : L==='zh' ? p.floorZh : p.floor;
+  const yr    = L==='en' ? p.yearEn  : L==='zh' ? p.yearZh  : p.year;
+  const mg    = L==='en' ? p.manageEn: L==='zh' ? p.manageZh: p.manage;
+
+  updateSlider();
+
+  const labels = {
+    area:   {ko:'면적',en:'Area',zh:'面积'},
+    floor:  {ko:'층수',en:'Floor',zh:'楼层'},
+    year:   {ko:'준공',en:'Built',zh:'竣工'},
+    dir:    {ko:'방향',en:'Direction',zh:'朝向'},
+    manage: {ko:'관리비',en:'Maintenance',zh:'物业费'},
+    loc:    {ko:'위치',en:'Location',zh:'位置'},
+  };
+  const lbl = k => labels[k][L] || labels[k].ko;
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-tag">${loc}</div>
+    <div class="modal-title">${name}</div>
+    <div class="modal-price">${price}</div>
+    <div class="detail-grid">
+      <div class="detail-item"><div class="detail-label">${lbl('area')}</div><div class="detail-val">${p.area}</div></div>
+      <div class="detail-item"><div class="detail-label">${lbl('floor')}</div><div class="detail-val">${fl}</div></div>
+      <div class="detail-item"><div class="detail-label">${lbl('year')}</div><div class="detail-val">${yr}</div></div>
+      <div class="detail-item"><div class="detail-label">${lbl('dir')}</div><div class="detail-val">${p.direction}</div></div>
+      <div class="detail-item"><div class="detail-label">${lbl('manage')}</div><div class="detail-val">${mg}</div></div>
+      <div class="detail-item"><div class="detail-label">${lbl('loc')}</div><div class="detail-val">${loc}</div></div>
+    </div>
+    <div class="modal-desc">${desc}</div>
+    <div class="modal-cta">
+      <a href="tel:01021063651" class="cta-call">
+        📞 ${L==='en'?'Call Now':L==='zh'?'立即致电':'전화 문의'}
+      </a>
+      <a href="#consult" class="cta-kakao" onclick="closeModal()">
+        📩 ${L==='en'?'Inquiry':L==='zh'?'在线咨询':'상담 신청'}
+      </a>
+    </div>
+  `;
+
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modalBg')) return;
+  document.getElementById('modalBg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function updateSlider() {
+  document.getElementById('sliderMain').innerHTML =
+    `<span style="font-size:120px;">${currentImages[currentSlide]}</span>`;
+  document.getElementById('sliderCount').textContent =
+    `${currentSlide + 1} / ${currentImages.length}`;
+
+  const thumbs = document.getElementById('sliderThumbs');
+  thumbs.innerHTML = currentImages.map((_, i) =>
+    `<div class="slider-dot ${i===currentSlide?'active':''}" onclick="goSlide(${i})"></div>`
+  ).join('');
+}
+
+function slideMove(dir) {
+  currentSlide = (currentSlide + dir + currentImages.length) % currentImages.length;
+  updateSlider();
+}
+function goSlide(i) { currentSlide = i; updateSlider(); }
+
+// ── 상담 신청 ──
+function submitConsult() {
+  const name = document.getElementById('c-name').value.trim();
+  const phone = document.getElementById('c-phone').value.trim();
+  if (!name || !phone) { showToast('⚠️ 이름과 연락처를 입력해 주세요'); return; }
+  showToast(`✅ ${name}님 상담 신청이 완료됐습니다!`);
+  document.getElementById('c-name').value = '';
+  document.getElementById('c-phone').value = '';
+  document.getElementById('c-memo').value = '';
+}
+
+// ── QR ──
+function generateQR() {
+  const url = document.getElementById('qrInput').value.trim();
+  const canvas = document.getElementById('qrCanvas');
+  const dlBtn = document.getElementById('qrDlBtn');
+  if (!url || url.length < 5) {
+    canvas.innerHTML = '<span style="font-size:70px;">📲</span>';
+    dlBtn.style.display = 'none';
+    return;
+  }
+  canvas.innerHTML = '';
+  try {
+    new QRCode(canvas, {
+      text: url, width: 160, height: 160,
+      colorDark: '#1B4B3A', colorLight: '#FFFFFF',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+    dlBtn.style.display = 'block';
+    showToast('✅ QR 코드가 생성됐어요!');
+  } catch(e) {
+    canvas.innerHTML = '<span style="font-size:70px;">📲</span>';
+  }
+}
+
+async function pasteLink() {
+  try {
+    const text = await navigator.clipboard.readText();
+    document.getElementById('qrInput').value = text;
+    generateQR();
+  } catch(e) {
+    showToast('직접 링크를 붙여넣기 해주세요');
+  }
+}
+
+function downloadQR() {
+  const canvas = document.getElementById('qrCanvas');
+  const el = canvas.querySelector('img') || canvas.querySelector('canvas');
+  if (!el) return;
+  const c = document.createElement('canvas');
+  c.width = 160; c.height = 160;
+  c.getContext('2d').drawImage(el, 0, 0);
+  const a = document.createElement('a');
+  a.download = '정든부동산_QR.png';
+  a.href = c.toDataURL('image/png');
+  a.click();
+  showToast('📥 QR 이미지가 저장됐어요!');
+}
+
+// ── 토스트 ──
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── Scroll Reveal ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ── 초기 렌더 ──
+renderProps('all');
+</script>
+</body>
+</html>
